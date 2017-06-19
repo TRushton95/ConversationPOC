@@ -1,6 +1,12 @@
 ﻿<DialogueNode>
   
   <DialogueNode>
+    
+    <DialogueNode>
+      <DialogueSet>
+        <Piece>Okay, I'll do it... But you better hold up yer end o' the bargain!</Piece>
+      </DialogueSet>
+    </DialogueNode>
     <DialogueSet>
       <Piece>You're really not going to leave are you...?</Piece>
       <Piece>Look, I'll tell ya what, if I do this for ya, will you leave me alone and never come back?</Piece>

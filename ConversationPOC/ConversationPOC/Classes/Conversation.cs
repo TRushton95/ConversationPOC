@@ -45,6 +45,9 @@ namespace ConversationPOC.Classes
 
         public void processInput()
         {
+            option = 0;
+
+            //process keyboard input
             prevKeyboard = currentKeyboard;
             currentKeyboard = Keyboard.GetState();
 
@@ -73,21 +76,7 @@ namespace ConversationPOC.Classes
                 }
             }
 
-            prevMouse = currentMouse;
-            currentMouse = Mouse.GetState();
-
-            if ((currentMouse.LeftButton == ButtonState.Pressed &&
-                prevMouse.LeftButton == ButtonState.Released ||
-                currentMouse.RightButton == ButtonState.Pressed &&
-                prevMouse.RightButton == ButtonState.Released) &&
-                !dialogue.isAtLastPiece())
-            {
-                dialogue.next();
-                Console.WriteLine(dialogue.read());
-                option = 9;
-            }
-
-
+            //advance to next node based on keyboard input
             if (temp != null && temp != dialogue)
             {
                 dialogue = temp;
@@ -95,9 +84,24 @@ namespace ConversationPOC.Classes
                 Console.WriteLine(dialogue.read());
             }
 
-            if (!dialogue.hasChildren() && dialogue.isAtLastPiece())
+            //process mouse input
+            prevMouse = currentMouse;
+            currentMouse = Mouse.GetState();
+
+            if ((currentMouse.LeftButton == ButtonState.Pressed &&
+                prevMouse.LeftButton == ButtonState.Released) ||
+                (currentMouse.RightButton == ButtonState.Pressed &&
+                prevMouse.RightButton == ButtonState.Released))
             {
-                this.end();
+                if (!dialogue.isAtLastPiece())
+                {
+                    dialogue.next();
+                    Console.WriteLine(dialogue.read());
+                }
+                else if (!dialogue.hasChildren())
+                {
+                    this.end();
+                }
             }
         }
 
