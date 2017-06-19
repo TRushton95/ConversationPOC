@@ -16,6 +16,8 @@ namespace ConversationPOC
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Conversation conversation;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,10 +34,10 @@ namespace ConversationPOC
         {
             // TODO: Add your initialization logic here
             DialogueNode dialogueNode = new DialogueNode("C:/GitHub/ConversationPOC/ConversationPOC/ConversationPOC/TextFiles/dialogue.xml");
+            conversation = new Conversation(dialogueNode);
+            conversation.start();
 
             Quest quest = new Quest("C:/GitHub/ConversationPOC/ConversationPOC/ConversationPOC/TextFiles/quest.xml");
-
-            Console.Write(dialogueNode.ToString());
 
             base.Initialize();
         }
@@ -72,6 +74,7 @@ namespace ConversationPOC
                 Exit();
 
             // TODO: Add your update logic here
+            conversation.update();
 
             base.Update(gameTime);
         }

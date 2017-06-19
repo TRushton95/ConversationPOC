@@ -54,11 +54,14 @@ namespace ConversationPOC.Classes
         {
             this.dialogue = dialogue;
             this.lastDialoguePiece = dialogue.Count();
+
+
         }
 
         public void Add(string piece)
         {
             dialogue.Add(piece);
+            lastDialoguePiece++;
         }
 
         public string read()
@@ -71,7 +74,7 @@ namespace ConversationPOC.Classes
 
         public void next()
         {
-            if (currentDialoguePiece < lastDialoguePiece)
+            if (currentDialoguePiece < lastDialoguePiece-1)
             {
                 currentDialoguePiece++;
             }
@@ -93,6 +96,11 @@ namespace ConversationPOC.Classes
         public void final()
         {
             currentDialoguePiece = lastDialoguePiece;
+        }
+
+        public bool isAtLastPiece()
+        {
+            return currentDialoguePiece == lastDialoguePiece-1;
         }
 
         public override string ToString()

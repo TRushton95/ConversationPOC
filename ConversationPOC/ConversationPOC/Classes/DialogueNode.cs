@@ -97,6 +97,11 @@ namespace ConversationPOC.Classes
             dialogueSet.final();
         }
 
+        public bool isAtLastPiece()
+        {
+            return dialogueSet.isAtLastPiece();
+        }
+
         public override string ToString()
         {
             string output = "";
@@ -124,6 +129,21 @@ namespace ConversationPOC.Classes
             }
 
             return output;
+        }
+
+        public DialogueNode Respond(int choice)
+        {
+            if (choice <= children.Count)
+            {
+                return children[choice - 1];
+            }
+
+            return null;
+        }
+
+        public bool hasChildren()
+        {
+            return children.Count > 0;
         }
     }
 }
