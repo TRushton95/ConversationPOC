@@ -29,18 +29,19 @@ namespace ConversationPOC.Classes
         public void start()
         {
             active = true;
-            Console.WriteLine("--------------------");
-            Console.WriteLine("Conversation started");
-            Console.WriteLine("--------------------");
+            Console.WriteLine("+----------------------+");
+            Console.WriteLine("| Conversation started |");
+            Console.WriteLine("+----------------------+");
             Console.Write(dialogue.read());
+            Console.WriteLine(dialogue.getResponses());
         }
 
         public void end()
         {
             active = false;
-            Console.WriteLine("\n--------------------");
-            Console.WriteLine(" Conversation ended ");
-            Console.WriteLine("--------------------");
+            Console.WriteLine("\n+----------------------+");
+            Console.WriteLine(  "|  Conversation ended  |");
+            Console.WriteLine(  "+----------------------+");
         }
 
         public void processInput()
@@ -51,6 +52,7 @@ namespace ConversationPOC.Classes
             prevKeyboard = currentKeyboard;
             currentKeyboard = Keyboard.GetState();
 
+            //needs a flexible system for input selection based on number of nodes
             if (currentKeyboard.IsKeyDown(Keys.D1) && prevKeyboard.IsKeyUp(Keys.D1))
             {
                 if (dialogue.isAtLastPiece())
@@ -80,8 +82,12 @@ namespace ConversationPOC.Classes
             if (temp != null && temp != dialogue)
             {
                 dialogue = temp;
-                Console.WriteLine("\t> Option " + option);
-                Console.WriteLine(dialogue.read());
+                Console.WriteLine("\t> Option " + option + "\n");
+                Console.WriteLine("NPC says: " + dialogue.read());
+                if (dialogue.isAtLastPiece())
+                {
+                    Console.WriteLine(dialogue.getResponses());
+                }
             }
 
             //process mouse input
@@ -96,7 +102,11 @@ namespace ConversationPOC.Classes
                 if (!dialogue.isAtLastPiece())
                 {
                     dialogue.next();
-                    Console.WriteLine(dialogue.read());
+                    Console.WriteLine("NPC says: " + dialogue.read());
+                    if (dialogue.isAtLastPiece())
+                    {
+                        Console.WriteLine(dialogue.getResponses());
+                    }
                 }
                 else if (!dialogue.hasChildren())
                 {

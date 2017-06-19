@@ -11,6 +11,7 @@ namespace ConversationPOC.Classes
     class DialogueNode
     {
         List<DialogueNode> children;
+        List<string> responses;
         DialogueSet dialogueSet;
         Quest quest;
 
@@ -19,6 +20,7 @@ namespace ConversationPOC.Classes
         {
             this.children = new List<DialogueNode>();
             this.dialogueSet = new DialogueSet(new List<string>());
+            this.responses = new List<string>();
 
             XmlDocument dialogueXML = new XmlDocument();
             dialogueXML.Load(documentPath);
@@ -29,6 +31,7 @@ namespace ConversationPOC.Classes
         {
             this.children = new List<DialogueNode>();
             this.dialogueSet = new DialogueSet(new List<string>());
+            this.responses = new List<string>();
 
             PopulateDialogueNode(rootNode);
         }
@@ -40,6 +43,7 @@ namespace ConversationPOC.Classes
                 if (n.Name == "DialogueNode")
                 {
                     children.Add(new DialogueNode(n));
+                    responses.Add(n.Attributes["response"].InnerText);
                 }
                 else if (n.Name == "DialogueSet")
                 {
@@ -144,6 +148,25 @@ namespace ConversationPOC.Classes
         public bool hasChildren()
         {
             return children.Count > 0;
+        }
+
+        public string getResponses()
+        {
+            string output = "";
+
+            if (responses.Count==0)
+            {
+                return output;
+            }
+
+            output += "\n>>>>>>>>>>>>>>>>>>>>>\n";
+            for (int i = 0; i < responses.Count; i++)
+            {
+                output += (i+1) + ") " + responses[i] + "\n";
+            }
+            output += ">>>>>>>>>>>>>>>>>>>>>\n";
+
+            return output;
         }
     }
 }
