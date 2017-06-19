@@ -1,0 +1,32 @@
+﻿<DialogueNode>
+  
+  <DialogueNode>
+    <DialogueSet>
+      <Piece>You're really not going to leave are you...?</Piece>
+      <Piece>Look, I'll tell ya what, if I do this for ya, will you leave me alone and never come back?</Piece>
+    </DialogueSet>
+  </DialogueNode>
+  
+  <DialogueNode>
+    <DialogueNode>
+      <DialogueSet>
+        <Piece>Please leave me alone...</Piece>
+      </DialogueSet>
+    </DialogueNode>
+    
+    <DialogueSet>
+      <Piece>I said I don't want to talk...</Piece>
+    </DialogueSet>
+  </DialogueNode>
+  
+  <DialogueNode>
+    <DialogueSet>
+      <Piece>...</Piece>
+    </DialogueSet>
+  </DialogueNode>
+  
+  <DialogueSet>
+    <Piece>Go away...</Piece>
+  </DialogueSet>
+  
+</DialogueNode>
