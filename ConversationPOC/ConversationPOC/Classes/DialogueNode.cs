@@ -14,9 +14,18 @@ namespace ConversationPOC.Classes
         DialogueSet dialogueSet;
         Quest quest;
 
-        //file should already be parsed on entry
-        //or could overload constructor
-        public DialogueNode(XmlNode rootNode)
+
+        public DialogueNode(string documentPath)
+        {
+            this.children = new List<DialogueNode>();
+            this.dialogueSet = new DialogueSet(new List<string>());
+
+            XmlDocument dialogueXML = new XmlDocument();
+            dialogueXML.Load(documentPath);
+            PopulateDialogueNode(dialogueXML.FirstChild);
+        }
+
+        private DialogueNode(XmlNode rootNode)
         {
             this.children = new List<DialogueNode>();
             this.dialogueSet = new DialogueSet(new List<string>());

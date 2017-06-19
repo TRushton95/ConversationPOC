@@ -31,10 +31,7 @@ namespace ConversationPOC
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            XmlDocument dialogueXML = new XmlDocument();
-            dialogueXML.Load("C:/GitHub/ConversationPOC/ConversationPOC/ConversationPOC/TextFiles/dialogue.xml");
-            DialogueNode dialogueNode = new DialogueNode(dialogueXML.FirstChild);
+            DialogueNode dialogueNode = new DialogueNode("C:/GitHub/ConversationPOC/ConversationPOC/ConversationPOC/TextFiles/dialogue.xml");
 
             Quest quest = new Quest("C:/GitHub/ConversationPOC/ConversationPOC/ConversationPOC/TextFiles/quest.xml");
 
