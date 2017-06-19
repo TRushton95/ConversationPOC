@@ -22,6 +22,7 @@ namespace ConversationPOC.Classes
             prevKeyboard = new KeyboardState();
             currentMouse = new MouseState();
             prevMouse = new MouseState();
+            temp = null;
             active = false;
             option = 0;
         }
@@ -32,7 +33,7 @@ namespace ConversationPOC.Classes
             Console.WriteLine("+----------------------+");
             Console.WriteLine("| Conversation started |");
             Console.WriteLine("+----------------------+");
-            Console.Write(dialogue.read());
+            Console.Write("NPC: " + dialogue.read());
             Console.WriteLine(dialogue.getResponses());
         }
 
@@ -51,67 +52,60 @@ namespace ConversationPOC.Classes
             //process keyboard input
             prevKeyboard = currentKeyboard;
             currentKeyboard = Keyboard.GetState();
-
-            //needs a flexible system for input selection based on number of nodes
-            if (currentKeyboard.IsKeyDown(Keys.D1) && prevKeyboard.IsKeyUp(Keys.D1))
-            {
-                if (dialogue.isAtLastPiece())
-                {
-                    temp = dialogue.Respond(1);
-                    option = 1;
-                }
-            }
-            else if (currentKeyboard.IsKeyDown(Keys.D2) && prevKeyboard.IsKeyUp(Keys.D2))
-            {
-                if (dialogue.isAtLastPiece())
-                {
-                    temp = dialogue.Respond(2);
-                    option = 2;
-                }
-            }
-            else if (currentKeyboard.IsKeyDown(Keys.D3) && prevKeyboard.IsKeyUp(Keys.D3))
-            {
-                if (dialogue.isAtLastPiece())
-                {
-                    temp = dialogue.Respond(3);
-                    option = 3;
-                }
-            }
-
-            //advance to next node based on keyboard input
-            if (temp != null && temp != dialogue)
-            {
-                dialogue = temp;
-                Console.WriteLine("\t> Option " + option + "\n");
-                Console.WriteLine("NPC says: " + dialogue.read());
-                if (dialogue.isAtLastPiece())
-                {
-                    Console.WriteLine(dialogue.getResponses());
-                }
-            }
-
             //process mouse input
             prevMouse = currentMouse;
             currentMouse = Mouse.GetState();
 
-            if ((currentMouse.LeftButton == ButtonState.Pressed &&
-                prevMouse.LeftButton == ButtonState.Released) ||
-                (currentMouse.RightButton == ButtonState.Pressed &&
-                prevMouse.RightButton == ButtonState.Released))
+            temp = null;
+
+            //needs a flexible system for input selection based on number of nodes
+            if (dialogue.isAtLastPiece() && dialogue.hasChildren())
             {
-                if (!dialogue.isAtLastPiece())
+                if (currentKeyboard.IsKeyDown(Keys.D1) && prevKeyboard.IsKeyUp(Keys.D1))
                 {
-                    dialogue.next();
+                    temp = dialogue.Respond(1);
+                    option = 1;
+                }
+                else if (currentKeyboard.IsKeyDown(Keys.D2) && prevKeyboard.IsKeyUp(Keys.D2))
+                {
+                    temp = dialogue.Respond(2);
+                    option = 2;
+                }
+                else if (currentKeyboard.IsKeyDown(Keys.D3) && prevKeyboard.IsKeyUp(Keys.D3))
+                {
+                    temp = dialogue.Respond(3);
+                    option = 3;
+                }
+
+                if (temp != null && temp != dialogue)
+                {
+                    dialogue = temp;
+                    Console.WriteLine("\t> Option " + option + "\n");
                     Console.WriteLine("NPC says: " + dialogue.read());
                     if (dialogue.isAtLastPiece())
                     {
                         Console.WriteLine(dialogue.getResponses());
                     }
                 }
-                else if (!dialogue.hasChildren())
+            }
+            else {
+                if ((currentMouse.LeftButton == ButtonState.Pressed &&
+                    prevMouse.LeftButton == ButtonState.Released) ||
+                    (currentMouse.RightButton == ButtonState.Pressed &&
+                    prevMouse.RightButton == ButtonState.Released))
                 {
-                    this.end();
+                    if (dialogue.hasChildren())
+                    {
+                        dialogue.next();
+                        Console.WriteLine("NPC says: " + dialogue.read());
+                        Console.WriteLine(dialogue.getResponses());
+                    }
+                    else
+                    {
+                        this.end();
+                    }
                 }
+                
             }
         }
 
